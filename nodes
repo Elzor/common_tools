@@ -1,0 +1,27 @@
+#!/bin/sh                                                                                    
+
+ERLANG_NODES=`pgrep beam -fl | grep -v pgrep | sed -r 's/^([0-9]+).*-name ([a-zA-Z0-9_-]+)@([a-zA-Z0-9_-\.]+).*-setcookie.*-- (.*)$/    \1 - \2@\3/g'`
+JAVA_NODES=`ps -C java h --cols 1000 -o pid,cmd | sed -r 's/^( *[0-9]+).* ([a-zA-Z._]+)\.Main.*/    \1 - \2/g'`
+GO_NODES=`pgrep xgn. -fl | grep -v pgrep | sed -r 's/^( *[0-9]+).* -name (.*)\@.*$/    \1 - \2 /g'` 
+
+
+if test -n "$ERLANG_NODES"; then
+    echo "---------------------------"                                                             
+    echo "ERLANG[`echo \"$ERLANG_NODES\" | wc -l`]:" 
+    echo "$ERLANG_NODES"
+    echo
+fi
+
+if test -n "$JAVA_NODES"; then
+    echo "---------------------------"                                                             
+    echo "JAVA[`echo \"$JAVA_NODES\" | wc -l`]:"                                                                          
+    echo "$JAVA_NODES"
+    echo
+fi
+
+if test -n "$GO_NODES"; then
+    echo "---------------------------"                                                             
+    echo "GO[`echo \"$GO_NODES\" | wc -l`]:"                                                                          
+    echo "$GO_NODES"
+    echo
+fi
